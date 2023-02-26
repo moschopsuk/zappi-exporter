@@ -34,11 +34,17 @@ async fn main() -> std::io::Result<()> {
         .unwrap();
 
     let power_freq = Gauge::new("power_freq", "Current power frequency").unwrap();
+    let supply_voltage = Gauge::new("supply_voltage", "Current supply voltage").unwrap();
     let grid_usage = Gauge::new("grid_usage", "Current grid ussage").unwrap();
 
     prometheus
         .registry
         .register(Box::new(power_freq.clone()))
+        .unwrap();
+
+    prometheus
+        .registry
+        .register(Box::new(supply_voltage.clone()))
         .unwrap();
 
     prometheus
@@ -63,6 +69,7 @@ async fn main() -> std::io::Result<()> {
         let zappi = response["zappi"].as_array().unwrap().get(0).unwrap();
 
         power_freq.set(zappi["frq"].as_f64().unwrap());
+        supply_voltage.set(zappi["vol"].as_f64().unwrap());
         grid_usage.set(zappi["grd"].as_f64().unwrap());
 
         thread::sleep(Duration::from_secs(5));
