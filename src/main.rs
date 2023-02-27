@@ -69,20 +69,21 @@ async fn main() -> std::io::Result<()> {
         let zappi = response["zappi"].as_array().unwrap().get(0).unwrap();
 
         power_freq.set(zappi["frq"].as_f64().unwrap());
-        supply_voltage.set(zappi["vol"].as_f64().unwrap());
+        //TODO: This is broken in the current zappi API and needs to be devided by 10
+        supply_voltage.set(zappi["vol"].as_f64().unwrap() / 10.0); 
         grid_usage.set(zappi["grd"].as_f64().unwrap());
 
         thread::sleep(Duration::from_secs(5));
     });
 
-    info!("starting server 127.0.0.1:3000");
+    info!("starting server 127.0.0.1:4000");
 
     HttpServer::new(move || {
         App::new()
             .wrap(prometheus.clone())
             .service(index)
     })
-    .bind(("127.0.0.1", 3000))?
+    .bind(("127.0.0.1", 4000))?
     .run()
     .await
 }

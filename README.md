@@ -3,7 +3,11 @@ Converts the API metrics from zappi to prometheus
 
 ## Other Dependencies
 OpenSSL is required as part of the dependencies 
+### Ubuntu
 `apt install pkg-config libssl-dev`
+
+### Fedora
+`dnf install openssl-devel`
 
 ## API Research
 This gives us the basic data used on the app's main screen.   The app also makes calls to 
