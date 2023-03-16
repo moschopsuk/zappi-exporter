@@ -7,8 +7,9 @@ use reqwest::blocking::Client;
 use reqwest::header::{CONTENT_TYPE, ACCEPT};
 use diqwest::blocking::WithDigestAuth;
 
-use std::thread;
+use std::{thread, panic};
 use std::time::Duration;
+use std::process;
 
 use simple_logger::SimpleLogger;
 use log::{LevelFilter, info};
@@ -52,12 +53,19 @@ async fn main() -> std::io::Result<()> {
         .register(Box::new(grid_usage.clone()))
         .unwrap();
 
+    let orig_hook = panic::take_hook();
+    panic::set_hook(Box::new(move |panic_info| {
+        // invoke the default handler and exit the process
+        orig_hook(panic_info);
+        process::exit(1);
+    }));
+
     thread::spawn(move || loop {
         let client = Client::new();
         let url: String = settings.get_string("endpoint").unwrap();
         let serial: String = settings.get_string("serial").unwrap();
         let apikey: String = settings.get_string("apikey").unwrap();
-         
+
         let response = client.get::<String>(url)
             .header(CONTENT_TYPE, "application/json")
             .header(ACCEPT, "application/json")
