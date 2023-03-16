@@ -84,14 +84,14 @@ async fn main() -> std::io::Result<()> {
         thread::sleep(Duration::from_secs(5));
     });
 
-    info!("starting server 127.0.0.1:4000");
+    info!("starting server 0.0.0.0:4000");
 
     HttpServer::new(move || {
         App::new()
             .wrap(prometheus.clone())
             .service(index)
     })
-    .bind(("127.0.0.1", 4000))?
+    .bind(("0.0.0.0", 4000))?
     .run()
     .await
 }
