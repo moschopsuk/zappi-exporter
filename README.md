@@ -1,5 +1,6 @@
 # Zappi Metrics Exporter
-Converts the API metrics from zappi to prometheus
+This is a Prometheus exporter for zappi api
+
 
 ## Other Dependencies
 OpenSSL is required as part of the dependencies 
