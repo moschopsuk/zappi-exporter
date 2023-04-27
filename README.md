@@ -72,3 +72,7 @@ or
 Locked Now=1 and Charge When Locked=1
 or
 Charge Session Allowed=1
+
+----
+
+This repo was inspired from [tado-exporter](https://github.com/eko/tado-exporter). Please check it out if you have a tado setup and want better metrics.
