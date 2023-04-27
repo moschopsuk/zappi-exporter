@@ -6,7 +6,6 @@ use config::Config;
 use hyper::{service::make_service_fn, service::service_fn, Server};
 use std::convert::Infallible;
 use std::time::Duration;
-use ticker::Ticker;
 
 use zappi::client::Client as ZappiClient;
 use zappi::metrics;
@@ -50,8 +49,8 @@ fn run_ticker(config: Config) {
 
         info!("waiting for the first tick in {} seconds...", ticker);
 
-        let ticker = Ticker::new((0..).cycle(), Duration::from_secs(ticker));
-        for _ in ticker {
+        loop {
+            tokio::time::sleep(Duration::from_secs(ticker)).await;
             metrics::set_stats(zappi_client.retrieve_stats().await);
         }
     });
