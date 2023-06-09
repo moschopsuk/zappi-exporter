@@ -62,7 +62,7 @@ pub fn set_stats(zappi_response: Option<ApiResponse>) {
 
         info!(
             "-> setting charger usuage (w): {}",
-            zappi.grid_usage
+            zappi.charger_usage
         );
     }
 }
