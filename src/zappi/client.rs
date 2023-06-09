@@ -46,6 +46,7 @@ impl Client {
                     power_freq: zappi["frq"].as_f64().unwrap(),
                     supply_voltage: zappi["vol"].as_f64().unwrap() / 10.0,
                     grid_usage: zappi["grd"].as_f64().unwrap(),
+                    charger_usage: zappi["div"].as_f64().unwrap(),
                 }
             },
             Err(e) => {

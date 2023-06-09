@@ -22,10 +22,15 @@ lazy_static! {
 
     pub static ref GRID_USAGE: Gauge = register_gauge!(
         "grid_usage",
-        "Current grid ussage in watts",
+        "Current grid usage in watts",
     )
     .unwrap();
 
+    pub static ref CHARGER_USAGE: Gauge = register_gauge!(
+        "charger_usage",
+        "Current charger ussage in watts",
+    )
+    .unwrap();
 }
 
 pub fn set_stats(zappi_response: Option<ApiResponse>) {
@@ -50,6 +55,13 @@ pub fn set_stats(zappi_response: Option<ApiResponse>) {
 
         info!(
             "-> setting grid usuage (w): {}",
+            zappi.grid_usage
+        );
+
+        CHARGER_USAGE.set(zappi.charger_usage);
+
+        info!(
+            "-> setting charger usuage (w): {}",
             zappi.grid_usage
         );
     }
